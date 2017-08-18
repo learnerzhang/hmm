@@ -5,8 +5,6 @@
 # @Site    : 
 # @File    : china.py
 # @Software: PyCharm
-import matplotlib.pyplot as plt
-plt.style.use('ggplot')
 from itertools import chain
 import nltk
 import sklearn
