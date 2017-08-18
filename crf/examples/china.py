@@ -5,7 +5,6 @@
 # @Site    : 
 # @File    : china.py
 # @Software: PyCharm
-from util.rmrb import load_train_data_to_tuple
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 from itertools import chain
@@ -65,8 +64,31 @@ def print_transitions(trans_features):
         print("%-6s -> %-7s %0.6f" % (label_from, label_to, weight))
 
 
+def load_train_data_to_tuple(train_path):
+    rrs = list()
+    with open(train_path, 'r') as f:
+        lines = f.readlines()
+        tmp = list()
+        for line in lines:
+            line = line.strip("\n")
+            rs = line.split("\t")
+            for r in rs:
+                r = r.decode("utf-8")
+                if len(r) == 1:
+                    tmp.append((r, 'S'))
+                elif len(r) == 2:
+                    tmp.append((r[0], 'B'))
+                    tmp.append((r[1], 'E'))
+                else:
+                    tmp.append((r[0], 'B'))
+                    for ch in r[1:-1]:
+                        tmp.append((ch, 'M'))
+                    tmp.append((r[-1], 'E'))
+        rrs.append(tmp)
+    return rrs
+
 if __name__ == '__main__':
-    originPath = "/Users/zhangzhen/gitRepository/hmmlearn/util/train.txt"
+    originPath = "train.txt"
     dataSet = load_train_data_to_tuple(originPath)
     # print train
 
